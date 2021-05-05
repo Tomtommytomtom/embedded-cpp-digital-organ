@@ -1,6 +1,8 @@
 //*******************************************************************
 #include "lib.h"
 #include "Module/RTOS.h"
+#include "VirtualTouchButton.h"
+#include "Observer.h"
 
 //*******************************************************************
 #if defined _MCU_TYPE_STM32L1XX
@@ -8,7 +10,7 @@
 #elif defined _MCU_TYPE_STM32F7XX
   #include "configSTM32F7xx.h"
 #elif defined _MCU_TYPE_LPC1758
-  #include "configLPC1758.h"
+		#include "configLPC1758.h"
 #elif defined _MCU_TYPE_VIRTUAL
   #include "configVirtual.h"
 #else
@@ -135,8 +137,22 @@ int main(void)
 
     #ifdef USE_GRAPHIC_DISPLAY
       cDevControlPointer::cData event = pointer.get();
-      disp.drawFrame(0,100,320,140,2, cHwDisplayGraphic::Red );
-      disp.drawText( 20,120, 18, "x:%3d y:%3d ctrl:0x%02x",  event.posX, event.posY, event.flags );
+//      disp.drawFrame(0,100,320,140,2, cHwDisplayGraphic::Red );
+      
+			class Sound : public Observer {
+				public:
+					void update(){
+						//play sound here
+					}
+			};
+			Sound *s =  new Sound();
+			
+			VirtualTouchButton button(60,100, 200, 100, disp, pointer);
+			//add sound to button
+			button.add(s);
+		  button.Draw();
+			//listen for button presses
+			button.update();
       disp.refresh();
     #endif
   }

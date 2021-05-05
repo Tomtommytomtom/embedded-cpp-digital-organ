@@ -454,6 +454,11 @@
               <FilePath>Src\main.cpp</FilePath>
             </File>
             <File>
+              <FileName>VirtualTouchButton.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\VirtualTouchButton.cpp</FilePath>
+            </File>
+            <File>
               <FileName>Subject.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\Src\Subject.cpp</FilePath>
@@ -523,6 +528,11 @@
         <Group>
           <GroupName>Include</GroupName>
           <Files>
+            <File>
+              <FileName>VirtualTouchButton.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\VirtualTouchButton.h</FilePath>
+            </File>
             <File>
               <FileName>Observer.h</FileName>
               <FileType>5</FileType>
