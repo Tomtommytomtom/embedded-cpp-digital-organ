@@ -468,6 +468,11 @@
               <FileType>8</FileType>
               <FilePath>.\Src\Observer.cpp</FilePath>
             </File>
+            <File>
+              <FileName>SoundPlayer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\SoundPlayer.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -542,6 +547,11 @@
               <FileName>Subject.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Include\Subject.h</FilePath>
+            </File>
+            <File>
+              <FileName>SoundPlayer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\SoundPlayer.h</FilePath>
             </File>
           </Files>
         </Group>

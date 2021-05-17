@@ -1,8 +1,10 @@
 //*******************************************************************
+#include <stdio.h>
 #include "lib.h"
 #include "Module/RTOS.h"
 #include "VirtualTouchButton.h"
 #include "Observer.h"
+#include "SoundPlayer.h"
 
 //*******************************************************************
 #if defined _MCU_TYPE_STM32L1XX
@@ -35,6 +37,33 @@ class cTask_Example : public cTaskHandler::Task
     virtual void update(void)
     {
       cnt++;
+    }
+};
+
+//This basically only calls soundPlayer.playSound() in a set interval.
+class PlaySoundTask : public cTaskHandler::Task
+{
+  public:
+    //---------------------------------------------------------------
+		SoundPlayer &sp;
+    int intervalMs;
+		unsigned cnt;
+		cTaskHandler &pubTask;
+    //---------------------------------------------------------------
+    PlaySoundTask(cTaskHandler &taskHandler,SoundPlayer &sp)
+    : Task(taskHandler),
+			pubTask(taskHandler),
+			sp(sp)
+    {
+			cnt = 0;
+		};
+  private:
+		
+    //---------------------------------------------------------------
+    virtual void update(void)
+    {
+			cnt++;
+      sp.playSound(static_cast<float>(cnt)/pubTask.getCycleTime());
     }
 };
 
@@ -91,7 +120,11 @@ class cRtosTask_Example : public cRTOS::Task
 //*******************************************************************
 cTaskHandler  taskHandler(&timer);
 
-cTask_Example task_Example(taskHandler);
+//cTask_Example task_Example(taskHandler);
+
+SoundPlayer sp(440 , dacA );
+PlaySoundTask *playSoundTask = new PlaySoundTask(taskHandler,sp);
+
 
 //*******************************************************************
 cRTOS_RR<3> rtos( 100/*time per task [ms]*/ );
@@ -101,7 +134,6 @@ cRtosTask_Example  rtos_task_Example( rtos );
 //*******************************************************************
 int main(void)
 {
-  int num = 0;
 
   #ifdef USE_GRAPHIC_DISPLAY
     disp.setBackColor(cHwDisplayGraphic::Navy);
@@ -109,52 +141,19 @@ int main(void)
   #endif
 
   disp.printf(0,0,0,__DATE__ " " __TIME__);
-
+	int frequency = 440;
   while(1)
   {
-    switch( enc.get() )
+		//use joystick to adjust frequency
+		switch( enc.get() )
     {
-        case cDevControlEncoder::LEFT:     num -= 1; break;
-        case cDevControlEncoder::RIGHT:    num += 1; break;
-        case cDevControlEncoder::CTRL_DWN: num  = 0; break;
+				case cDevControlEncoder::LEFT:     frequency -= 10; break;
+        case cDevControlEncoder::RIGHT:    frequency += 10; break;
+        case cDevControlEncoder::CTRL_DWN: frequency  = 440; break;
         default:                                     break;
     }
-
-    cHwRTC::Properties prop;
-    rtc.get( prop );
-
-    disp.printf(1,0,20,"Timer-Task: %d",   task_Example.cnt );
-    disp.printf(2,0,20,"RTOS-Task:  %.1f", rtos_task_Example.sec );
-    disp.printf(3,0,20,"BTN:%d Enc:%2d RTC:%2d", btn.get(),num, prop.second );
-
-    if( btn.getEvent() == cDevDigital::ACTIVATED )
-    {
-      led.toggle();
-    }
-
-    dacA.set( adcA.get() );
-
-
-    #ifdef USE_GRAPHIC_DISPLAY
-      cDevControlPointer::cData event = pointer.get();
-//      disp.drawFrame(0,100,320,140,2, cHwDisplayGraphic::Red );
-      
-			class Sound : public Observer {
-				public:
-					void update(){
-						//play sound here
-					}
-			};
-			Sound *s =  new Sound();
-			
-			VirtualTouchButton button(60,100, 200, 100, disp, pointer);
-			//add sound to button
-			button.add(s);
-		  button.Draw();
-			//listen for button presses
-			button.update();
-      disp.refresh();
-    #endif
+		sp.setFrequency(frequency);
+		disp.printf(1,0,0,"Frequency: %d",frequency);
   }
 }
 
