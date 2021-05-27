@@ -5,13 +5,21 @@
 
 class SoundPlayer {
 	private:
+		int volume;
 		int frequency;
-		int angularFrequency;
+	  float amplitude;
+		float frequencyScalar;
+		unsigned int baseFrequency;
 	  cDevAnalogOutDAC &dac;
 	public:
-		SoundPlayer(int frequency, cDevAnalogOutDAC &dac);
+		SoundPlayer(int timerFrequency, cDevAnalogOutDAC &dac);
+	
 		void playSound(float time);
 		void playSound(unsigned int cnt);
+	
+		int getVolume();
+	  void setVolume(int value);
+	
 		int getFrequency();
 		void setFrequency(int frequency);
 		

@@ -54,7 +54,7 @@ cHwPinConfig::MAP cHwPinConfig::table[] =
 };
 
 //- Timer------------------------------------------------------------
-cHwTimer_N   timer   ( cHwTimer_N::TIM_1,   100 ); //resolution as higher as possible 10KHz mp3 = 44100Hz
+cHwTimer_N   timer   ( cHwTimer_N::TIM_1,   70); //resolution as higher as possible: 14.285KHz mp3 = 44.100KHz
 cHwTimer_N   timerPWM( cHwTimer_N::TIM_PWM, 4095 );
 
 //- Digital Port ----------------------------------------------------

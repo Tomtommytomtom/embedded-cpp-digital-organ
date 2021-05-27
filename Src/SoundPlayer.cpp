@@ -2,18 +2,29 @@
 #include "lib.h"
 #include <cmath>
 
-SoundPlayer::SoundPlayer(int frequency, cDevAnalogOutDAC &dac): frequency(frequency), dac(dac) {};
+SoundPlayer::SoundPlayer(int timerFrequency, cDevAnalogOutDAC &dac): baseFrequency(timerFrequency), dac(dac) {
+	amplitude = 0x8000;
+};
 	
-void SoundPlayer::playSound(float time){
-	float amplitude = 0x1000;
-	float offset = 0x8000;
-	float x = amplitude * std::sin(6.282 * frequency * time) + offset;
-	dac.setRaw(x);
-}
 void SoundPlayer::playSound(unsigned int cnt){
-	float amplitude = 0x1000;
-	float offset = 0x8000;
-	dac.setRaw(amplitude * std::sin(6.282 * (float)cnt / (10000.0 / (float)frequency) + offset));
+	if(frequency == 0)
+	{
+		dac.setRaw(0);
+		return;
+	}
+	dac.setRaw(amplitude * std::sin(6.282 * cnt / frequencyScalar));
+}
+
+int SoundPlayer::getVolume(){
+	return volume;
+}
+
+void SoundPlayer::setVolume(int value){
+	if(value > 100){
+		return;
+	}
+	volume = value;
+	amplitude = 0xFFFF * ((float)value / 100);
 }
 
 int SoundPlayer::getFrequency(){
@@ -22,6 +33,5 @@ int SoundPlayer::getFrequency(){
 
 void SoundPlayer::setFrequency(int value){
 	frequency = value;
-	angularFrequency = 6.282 * value;
+	frequencyScalar = (float)baseFrequency / frequency;
 }
-

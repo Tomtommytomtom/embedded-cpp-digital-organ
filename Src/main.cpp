@@ -35,46 +35,46 @@ class PlaySoundTask : public cTaskHandler::Task
 		
     virtual void update(void)
     {
-			if(cnt == 10000)
-			{
-				cnt = 0;
-			}
-			else
-			{
 			cnt++;
-			}
 			sp.playSound(cnt);
     }
 };
 
 //*******************************************************************
 cTaskHandler taskHandler(&timer);
-SoundPlayer sp(0 , dacA );
+SoundPlayer sp(1.0/timer.getCycleTime() * 1000000 , dacA);
 PlaySoundTask *playSoundTask = new PlaySoundTask(taskHandler,sp);
 
 //*******************************************************************
 int main(void)
 {
-
   #ifdef USE_GRAPHIC_DISPLAY
     disp.setBackColor(cHwDisplayGraphic::Navy);
     disp.clear();
   #endif
 
+	bool frequencyShifted = false;
+	
+	sp.setVolume(70);
   disp.printf(0,0,0,__DATE__ " " __TIME__);
-	int frequency = 0;
+	int frequency = 440;
+	disp.printf(1,0,0,"Frequency: %d\t\t\t\t\t",frequency);
   while(1)
   {
 		//use joystick to adjust frequency
 		switch( enc.get() )
     {
-				case cDevControlEncoder::LEFT:     frequency -= 10; break;
-        case cDevControlEncoder::RIGHT:    frequency += 10; break;
-        case cDevControlEncoder::CTRL_DWN: frequency  = 0; break;
+				case cDevControlEncoder::LEFT:     frequency -= 10; frequencyShifted = true; break;
+        case cDevControlEncoder::RIGHT:    frequency += 10; frequencyShifted = true; break;
+        case cDevControlEncoder::CTRL_DWN: frequency  = 0; frequencyShifted = true; break;
         default:                                     break;
     }
 		sp.setFrequency(frequency);
-		disp.printf(1,0,0,"Frequency: %d\t\t\t\t\t",frequency);
+		if(frequencyShifted)
+		{
+			disp.printf(1,0,0,"Frequency: %d\t\t\t\t\t",frequency);
+			frequencyShifted = false;
+		}
   }
 }
 
