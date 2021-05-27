@@ -7,11 +7,7 @@
 #include "SoundPlayer.h"
 
 //*******************************************************************
-#if defined _MCU_TYPE_STM32L1XX
-  #include "configSTM32L1xx.h"
-#elif defined _MCU_TYPE_STM32F7XX
-  #include "configSTM32F7xx.h"
-#elif defined _MCU_TYPE_LPC1758
+#if defined _MCU_TYPE_LPC1758
 		#include "configLPC1758.h"
 #elif defined _MCU_TYPE_VIRTUAL
   #include "configVirtual.h"
@@ -19,34 +15,12 @@
   #error "Device type not defined"
 #endif
 
-//*******************************************************************
-class cTask_Example : public cTaskHandler::Task
-{
-  public:
-    //---------------------------------------------------------------
-    unsigned cnt;
-    //---------------------------------------------------------------
-    cTask_Example(cTaskHandler &taskHandler)
-    : Task(taskHandler)
-    {
-      cnt = 0;
-    }
-
-  private:
-    //---------------------------------------------------------------
-    virtual void update(void)
-    {
-      cnt++;
-    }
-};
-
 //This basically only calls soundPlayer.playSound() in a set interval.
 class PlaySoundTask : public cTaskHandler::Task
 {
   public:
     //---------------------------------------------------------------
 		SoundPlayer &sp;
-    int intervalMs;
 		unsigned cnt;
 		cTaskHandler &pubTask;
     //---------------------------------------------------------------
@@ -59,77 +33,24 @@ class PlaySoundTask : public cTaskHandler::Task
 		};
   private:
 		
-    //---------------------------------------------------------------
     virtual void update(void)
     {
+			if(cnt == 10000)
+			{
+				cnt = 0;
+			}
+			else
+			{
 			cnt++;
-      sp.playSound(static_cast<float>(cnt)/pubTask.getCycleTime());
+			}
+			sp.playSound(cnt);
     }
 };
 
 //*******************************************************************
-class cRtosTask_Example : public cRTOS::Task
-{
-  public:
-    //---------------------------------------------------------------
-    cRtosTask_Example(cRTOS &rtosIn )
-
-    : cRTOS::Task( rtosIn, 500/* stack size*/ )
-
-    {
-      sec = 0;
-      Start();
-    }
-
-    //---------------------------------------------------------------
-    virtual ~cRtosTask_Example()
-    {
-    }
-
-    //---------------------------------------------------------------
-    virtual void update( )
-    {
-      while( 1 )
-      {
-        Pause( 10 );
-        if( timer.timeout() )
-        {
-          sec+=0.1f;
-        }
-      }
-    }
-
-    //---------------------------------------------------------------
-    virtual void OnStop(void)
-    {
-    }
-
-    //---------------------------------------------------------------
-    virtual void OnStart(void)
-    {
-      timer.start( 100 );
-    }
-
-    //---------------------------------------------------------------
-    float   sec;
-
-    cRTOS::Timer timer;
-};
-
-
-//*******************************************************************
-cTaskHandler  taskHandler(&timer);
-
-//cTask_Example task_Example(taskHandler);
-
-SoundPlayer sp(440 , dacA );
+cTaskHandler taskHandler(&timer);
+SoundPlayer sp(0 , dacA );
 PlaySoundTask *playSoundTask = new PlaySoundTask(taskHandler,sp);
-
-
-//*******************************************************************
-cRTOS_RR<3> rtos( 100/*time per task [ms]*/ );
-
-cRtosTask_Example  rtos_task_Example( rtos );
 
 //*******************************************************************
 int main(void)
@@ -141,7 +62,7 @@ int main(void)
   #endif
 
   disp.printf(0,0,0,__DATE__ " " __TIME__);
-	int frequency = 440;
+	int frequency = 0;
   while(1)
   {
 		//use joystick to adjust frequency
@@ -149,11 +70,11 @@ int main(void)
     {
 				case cDevControlEncoder::LEFT:     frequency -= 10; break;
         case cDevControlEncoder::RIGHT:    frequency += 10; break;
-        case cDevControlEncoder::CTRL_DWN: frequency  = 440; break;
+        case cDevControlEncoder::CTRL_DWN: frequency  = 0; break;
         default:                                     break;
     }
 		sp.setFrequency(frequency);
-		disp.printf(1,0,0,"Frequency: %d",frequency);
+		disp.printf(1,0,0,"Frequency: %d\t\t\t\t\t",frequency);
   }
 }
 

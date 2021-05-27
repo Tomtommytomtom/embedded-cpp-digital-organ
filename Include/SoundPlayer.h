@@ -11,6 +11,7 @@ class SoundPlayer {
 	public:
 		SoundPlayer(int frequency, cDevAnalogOutDAC &dac);
 		void playSound(float time);
+		void playSound(unsigned int cnt);
 		int getFrequency();
 		void setFrequency(int frequency);
 		
