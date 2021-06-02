@@ -1,14 +1,14 @@
 //*******************************************************************
 #include <stdio.h>
-#include "lib.h"
 #include "Module/RTOS.h"
 #include "VirtualTouchButton.h"
 #include "Observer.h"
 #include "SoundPlayer.h"
 
 //*******************************************************************
+
 #if defined _MCU_TYPE_LPC1758
-		#include "configLPC1758.h"
+  #include "configLPC1758.h"
 #elif defined _MCU_TYPE_VIRTUAL
   #include "configVirtual.h"
 #else
@@ -32,7 +32,6 @@ class PlaySoundTask : public cTaskHandler::Task
 			cnt = 0;
 		};
   private:
-		
     virtual void update(void)
     {
 			cnt++;
@@ -52,29 +51,29 @@ int main(void)
     disp.setBackColor(cHwDisplayGraphic::Navy);
     disp.clear();
   #endif
-
-	bool frequencyShifted = false;
 	
 	sp.setVolume(70);
   disp.printf(0,0,0,__DATE__ " " __TIME__);
-	int frequency = 440;
-	disp.printf(1,0,0,"Frequency: %d\t\t\t\t\t",frequency);
+	sp.setTone(SoundPlayer::A, 1);
+	disp.printf(1,0,0,sp.getTone());
   while(1)
   {
-		//use joystick to adjust frequency
+		//use joystick to adjust tone
 		switch( enc.get() )
     {
-				case cDevControlEncoder::LEFT:     frequency -= 10; frequencyShifted = true; break;
-        case cDevControlEncoder::RIGHT:    frequency += 10; frequencyShifted = true; break;
-        case cDevControlEncoder::CTRL_DWN: frequency  = 0; frequencyShifted = true; break;
-        default:                                     break;
+				case cDevControlEncoder::LEFT:
+					disp.printf(1,0,0,sp.decrementTone());
+					break;
+        case cDevControlEncoder::RIGHT:
+					disp.printf(1,0,0,sp.incrementTone());
+					break;
+        case cDevControlEncoder::CTRL_DWN: 
+					sp.setTone(SoundPlayer::A, 1); 
+					disp.printf(1,0,0,sp.getTone()); 
+					break;
+        default:
+					break;
     }
-		sp.setFrequency(frequency);
-		if(frequencyShifted)
-		{
-			disp.printf(1,0,0,"Frequency: %d\t\t\t\t\t",frequency);
-			frequencyShifted = false;
-		}
   }
 }
 
