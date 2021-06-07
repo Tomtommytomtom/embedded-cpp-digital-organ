@@ -54,7 +54,7 @@ cHwPinConfig::MAP cHwPinConfig::table[] =
 };
 
 //- Timer------------------------------------------------------------
-cHwTimer_N   timer   ( cHwTimer_N::TIM_1,   1000 );
+cHwTimer_N   timer   ( cHwTimer_N::TIM_1,   70); //resolution as higher as possible: 14.285KHz mp3 = 44.100KHz
 cHwTimer_N   timerPWM( cHwTimer_N::TIM_PWM, 4095 );
 
 //- Digital Port ----------------------------------------------------
@@ -88,7 +88,9 @@ cDevControlPointer   pointer( touch );
 
 //- Joystick --------------------------------------------------------
 cDevDigital btnRight( port1, 26, cDevDigital::In, 1 );
+cDevDigital btnDown ( port1, 25, cDevDigital::In, 1 );
 cDevDigital btnLeft ( port1, 24, cDevDigital::In, 1 );
+cDevDigital btnUp		( port1, 23, cDevDigital::In, 1	);
 cDevDigital btnCtrl ( port1, 20, cDevDigital::In, 1 );
 
 cDevControlEncoderJoystick enc( &btnRight, &btnLeft, &btnCtrl, &timer, 200/*ms*/ );
