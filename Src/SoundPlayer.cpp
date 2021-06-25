@@ -1,12 +1,18 @@
 #include "SoundPlayer.h"
 #include <cmath>
 
-SoundPlayer::SoundPlayer(int timerFrequency, cDevAnalogOutDAC &dac): baseFrequency(timerFrequency), dac(dac) {
+SoundPlayer::SoundPlayer(cTaskHandler &taskHandler, int timerFrequency, cDevAnalogOutDAC &dac):
+	baseFrequency(timerFrequency),
+	dac(dac),
+	taskHandler(taskHandler),
+	Task(taskHandler)
+{
 	amplitude = 0x8000;
 };
+
+void SoundPlayer::update(){
 	
-void SoundPlayer::playSound(unsigned int cnt){
-	dac.setRaw(amplitude * std::sin(6.282 * cnt / frequencyScalar));
+	dac.setRaw(amplitude * std::sin(taskHandler.getTics() / frequencyScalar));
 }
 
 int SoundPlayer::getVolume(){
@@ -100,7 +106,7 @@ char* SoundPlayer::toneToString(){
 }
 
 float SoundPlayer::calculateScalarFrequency(float frequency, int octave){
-	return (float)baseFrequency / (frequency * std::pow(2.0, (octave -1)));
+	return baseFrequency / (frequency * (2 << (octave - 1)) * 6.2831);
 }
 
 float SoundPlayer::getFrequencyOfNote(Note n){

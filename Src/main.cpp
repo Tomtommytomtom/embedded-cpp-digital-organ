@@ -15,34 +15,9 @@
   #error "Device type not defined"
 #endif
 
-//This basically only calls soundPlayer.playSound() in a set interval.
-class PlaySoundTask : public cTaskHandler::Task
-{
-  public:
-    //---------------------------------------------------------------
-		SoundPlayer &sp;
-		unsigned cnt;
-		cTaskHandler &pubTask;
-    //---------------------------------------------------------------
-    PlaySoundTask(cTaskHandler &taskHandler,SoundPlayer &sp)
-    : Task(taskHandler),
-			pubTask(taskHandler),
-			sp(sp)
-    {
-			cnt = 0;
-		};
-  private:
-    virtual void update(void)
-    {
-			cnt++;
-			sp.playSound(cnt);
-    }
-};
-
 //*******************************************************************
 cTaskHandler taskHandler(&timer);
-SoundPlayer sp(1.0/timer.getCycleTime() * 1000000 , dacA);
-PlaySoundTask *playSoundTask = new PlaySoundTask(taskHandler,sp);
+SoundPlayer sp(taskHandler, 1.0/timer.getCycleTime() * 1000000 , dacA);
 
 //*******************************************************************
 int main(void)
@@ -51,7 +26,6 @@ int main(void)
     disp.setBackColor(cHwDisplayGraphic::Navy);
     disp.clear();
   #endif
-	
 	sp.setVolume(70);
   disp.printf(0,0,0,__DATE__ " " __TIME__);
 	sp.setTone(SoundPlayer::A, 1);

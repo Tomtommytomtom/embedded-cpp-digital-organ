@@ -17,14 +17,12 @@
 #define G1	48.9994
 #define Gs1	51.9131
 
-class SoundPlayer {
+class SoundPlayer: public cTaskHandler::Task{
 	
 	public: // functions
 		enum Note{A, As, B, C, Cs, D, Ds, E, F, Fs, G, Gs};
 	
-		SoundPlayer(int timerFrequency, cDevAnalogOutDAC &dac);
-	
-		void playSound(unsigned int cnt);
+		SoundPlayer(cTaskHandler &taskHandler, int timerFrequency, cDevAnalogOutDAC &dac);
 	
 		int getVolume();
 	  void setVolume(int value);
@@ -39,13 +37,17 @@ class SoundPlayer {
 		float calculateScalarFrequency(float frequency, int octave);
 		float getFrequencyOfNote(Note n);
 	
+		void update();
+	
 	// variables
+		cTaskHandler &taskHandler;
+	
 		int volume;
 		Note currentNote;
 		int currentOctave;
 	  float amplitude;
 		float frequencyScalar;
-		unsigned int baseFrequency;
+		float baseFrequency;
 	  cDevAnalogOutDAC &dac;
 		
 };
