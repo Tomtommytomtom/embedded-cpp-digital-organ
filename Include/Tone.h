@@ -9,8 +9,9 @@ class Tone{
 public:
 	Note note;
 	char octave;
+	char length; // in 16th
 	
-	Tone(Note n, char octave);
+	Tone(Note n, char octave, char length);
 	char *toString();
 	void operator++(int);
 	void operator--(int);

@@ -25,26 +25,33 @@ SongPlayer::SongPlayer(cTaskHandler &taskHandler, cHwTimer_N *timer, SoundPlayer
 	void SongPlayer::start(){
 		currentItem = song->getFirst();
 		sp->setTone(currentItem->getTone());
+		lengthCnt = currentItem->getTone()->length;
 		isPlaying = 1;
 	}
 
 	int SongPlayer::calcCycleTime(int bpm)
 	{
 		//60s/min * 1000.000us/s / bpm1/min = cycleTime in us
-		return 60000000 / bpm;
+		// /4 to get 16th
+		return 60000000 / bpm / 4;
 	}
 	
 	void SongPlayer::update(){
 		if(isPlaying)
 		{
-			if(currentItem->getHasNext())
+			if(! --lengthCnt)
 			{
-				currentItem = currentItem->getNext();
-				sp->setTone(currentItem->getTone());
-			}
-			else
-			{
-				isPlaying = 0;
+				if(currentItem->getHasNext())
+				{
+					currentItem = currentItem->getNext();
+					lengthCnt = currentItem->getTone()->length;
+					sp->setTone(currentItem->getTone());
+				}
+				else
+				{
+					isPlaying = 0;
+					sp->setTone(0);
+				}
 			}
 		}
 	}

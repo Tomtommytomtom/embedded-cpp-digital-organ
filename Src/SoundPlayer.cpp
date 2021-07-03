@@ -8,7 +8,6 @@ SoundPlayer::SoundPlayer(cTaskHandler &taskHandler, int timerFrequency, cDevAnal
 	Task(taskHandler)
 {
 	amplitude = 0x8000;
-	currentTone = new Tone(A, 1);
 }
 
 void SoundPlayer::update(){

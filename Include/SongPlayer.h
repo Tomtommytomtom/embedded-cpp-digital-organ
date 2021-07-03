@@ -15,6 +15,7 @@ private:
 	SongItem *currentItem;
 	SoundPlayer *sp;
 	char isPlaying;
+	char lengthCnt;
 	
 	
 public:
