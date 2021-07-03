@@ -2,6 +2,7 @@
 #define _SOUND_PLAYER_H
 
 #include "lib.h"
+#include "Tone.h"
 
 //root note frequencys
 #define A1	55
@@ -17,38 +18,35 @@
 #define G1	48.9994
 #define Gs1	51.9131
 
+
+
 class SoundPlayer: public cTaskHandler::Task{
 	
 	public: // functions
-		enum Note{A, As, B, C, Cs, D, Ds, E, F, Fs, G, Gs};
 	
 		SoundPlayer(cTaskHandler &taskHandler, int timerFrequency, cDevAnalogOutDAC &dac);
 	
 		int getVolume();
-	  void setVolume(int value);
+		void setVolume(int value);
 	
-		char *getTone();
-		void setTone(Note note, int octave);
-		char *decrementTone();
-		char *incrementTone();
+		Tone *getTone();
+		void setTone(Tone *tone);
 	
 	private: //functions
-		char *toneToString();
-		float calculateScalarFrequency(float frequency, int octave);
+		float calculateScalarFrequency(float frequency, char octave);
 		float getFrequencyOfNote(Note n);
 	
 		void update();
 	
 	// variables
 		cTaskHandler &taskHandler;
-	
+		int envelopeCnt;
 		int volume;
-		Note currentNote;
-		int currentOctave;
-	  float amplitude;
+		Tone *currentTone;
+		float amplitude;
 		float frequencyScalar;
 		float baseFrequency;
-	  cDevAnalogOutDAC &dac;
+		cDevAnalogOutDAC &dac;
 		
 };
 #endif
