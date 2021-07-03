@@ -136,7 +136,7 @@
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
+          <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
@@ -473,6 +473,21 @@
               <FileType>8</FileType>
               <FilePath>.\Src\SoundPlayer.cpp</FilePath>
             </File>
+            <File>
+              <FileName>Song.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\Song.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SongPlayer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\SongPlayer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Tone.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\Tone.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -552,6 +567,21 @@
               <FileName>SoundPlayer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Include\SoundPlayer.h</FilePath>
+            </File>
+            <File>
+              <FileName>Song.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\Song.h</FilePath>
+            </File>
+            <File>
+              <FileName>SongPlayer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\SongPlayer.h</FilePath>
+            </File>
+            <File>
+              <FileName>Tone.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\Tone.h</FilePath>
             </File>
           </Files>
         </Group>

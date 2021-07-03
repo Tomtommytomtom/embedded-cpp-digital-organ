@@ -54,8 +54,9 @@ cHwPinConfig::MAP cHwPinConfig::table[] =
 };
 
 //- Timer------------------------------------------------------------
-cHwTimer_N   timer   ( cHwTimer_N::TIM_1,   70); //resolution as higher as possible: 14.285KHz mp3 = 44.100KHz
-cHwTimer_N   timerPWM( cHwTimer_N::TIM_PWM, 4095 );
+cHwTimer_N   timerSound(cHwTimer_N::TIM_1,   50   );
+
+cHwTimer_N   timerPWM  (cHwTimer_N::TIM_PWM, 4095 );
 
 //- Digital Port ----------------------------------------------------
 cHwPort_N    port0   ( cHwPort_N::P0 );
@@ -64,7 +65,7 @@ cHwPort_N    port2   ( cHwPort_N::P2 );
 cHwPort_N    port4   ( cHwPort_N::P4 );
 
 //- Analog In -------------------------------------------------------
-cHwADC_0         adcHw( &timer );
+cHwADC_0         adcHw( &timerSound );
 cDevAnalogInADC  adcA( adcHw, 0, 3.3, 0.0 ); 
 
 //- Analog OutIn ----------------------------------------------------
@@ -93,7 +94,7 @@ cDevDigital btnLeft ( port1, 24, cDevDigital::In, 1 );
 cDevDigital btnUp		( port1, 23, cDevDigital::In, 1	);
 cDevDigital btnCtrl ( port1, 20, cDevDigital::In, 1 );
 
-cDevControlEncoderJoystick enc( &btnRight, &btnLeft, &btnCtrl, &timer, 200/*ms*/ );
+cDevControlEncoderJoystick enc( &btnRight, &btnLeft, &btnCtrl, &timerSound, 200/*ms*/ );
 
 //- Button ----------------------------------------------------------
 cDevDigital      btn( port2, 10, cDevDigital::In, 1 );
