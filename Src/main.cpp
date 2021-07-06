@@ -1,11 +1,13 @@
 //*******************************************************************
 #include <stdio.h>
 #include "Module/RTOS.h"
-#include "VirtualTouchButton.h"
+#include "SoundButton.h"
 #include "Observer.h"
 #include "SoundPlayer.h"
 #include "Song.h"
 #include "SongPlayer.h"
+#include "KeyboardView.h"
+#include "Navigation.h"
 
 //*******************************************************************
 
@@ -29,7 +31,7 @@ int main(void)
     disp.clear();
   #endif
 	
-	Song song;
+	Song song("The Sound","MLStudio");
 	
 	song.add(new SongItem(new Tone(C, 1, 4)));
 	song.add(new SongItem(new Tone(D, 1, 4)));
@@ -62,24 +64,34 @@ int main(void)
 	cHwTimer_N   timerTakt (cHwTimer_N::TIM_0,   SongPlayer::calcCycleTime(120)); // 120 bpm
 	cTaskHandler playerHadler(&timerTakt);
 	
-	SongPlayer player(playerHadler, &timerTakt, &sp);
-	player.setSong(&song);
-	player.start();
+	//SongPlayer player(playerHadler, &timerTakt, &sp);
+	//player.setSong(&song);
+	//player.start();
 	
 	
   disp.printf(0,0,0,__DATE__ " " __TIME__);
+	
+	KeyboardView *kb = new KeyboardView("Play Sounds!",disp,pointer,sp);
+	Navigation nav(disp,pointer,btn);
+	nav.registerUI(static_cast<UI*>(kb),0);
+	nav.build();
 	
 	disp.printf(1,0,0,sp.getTone()->toString());
 	int volume = 70;
   while(1)
   {
 		disp.printf(1,0,20,"Volume: %d",volume);
-		disp.printf(2,0,0,player.getCurrentTone()->toString());
+		disp.printf(2,0,0,sp.getTone()->toString());
 		if(btn.get())
 		{
 			disp.printf(5,0,0,"hi");
 			//start song
 		}
+		
+		nav.update();
+		
+		
+		//sp.setTone(new Tone(A,1,16));
 			
 		//use joystick to adjust tone
 		switch( enc.get() )

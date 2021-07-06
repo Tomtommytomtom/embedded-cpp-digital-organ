@@ -320,13 +320,13 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>0</wLevel>
+            <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
-            <v6LangP>1</v6LangP>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -488,6 +488,26 @@
               <FileType>8</FileType>
               <FilePath>.\Src\Tone.cpp</FilePath>
             </File>
+            <File>
+              <FileName>Navigation.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\Navigation.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SoundButton.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\SoundButton.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>UI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\UI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>KeyboardView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\KeyboardView.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -582,6 +602,26 @@
               <FileName>Tone.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Include\Tone.h</FilePath>
+            </File>
+            <File>
+              <FileName>Navigation.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\Navigation.h</FilePath>
+            </File>
+            <File>
+              <FileName>SoundButton.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\SoundButton.h</FilePath>
+            </File>
+            <File>
+              <FileName>UI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\UI.h</FilePath>
+            </File>
+            <File>
+              <FileName>KeyboardView.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\KeyboardView.h</FilePath>
             </File>
           </Files>
         </Group>
