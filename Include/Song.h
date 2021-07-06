@@ -28,7 +28,9 @@ private:
 	int length;
 
 public:
-	Song();
+	char* name;
+	char* artist;
+	Song(char* name, char* artist);
 
 	int getLength();
 

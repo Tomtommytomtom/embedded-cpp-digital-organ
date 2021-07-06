@@ -32,7 +32,7 @@ void SongItem::clearNext(){
 }
 
 //song
-Song::Song(){
+Song::Song(char* name, char* artist): name(name), artist(artist){
 	length = 0;
 }
 
