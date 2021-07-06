@@ -1,19 +1,20 @@
 #ifndef _Virtual_Touch_Button_H
 #define _Virtual_Touch_Button_H
 #include "lib.h"
-#include "Subject.h"
 
-class VirtualTouchButton : public Subject{
+class VirtualTouchButton{
 	public:
 		int x;
 		int y;
 		int width;
 		int height;
+		char* label;
 		cDevDisplayGraphic &disp;
 		cDevControlPointer &pointer;
-		VirtualTouchButton(int x, int y, int length, int width,cDevDisplayGraphic &disp, cDevControlPointer &pointer);
-		void Draw();
+		VirtualTouchButton(int x, int y, int length, int width, char *label, cDevDisplayGraphic &disp, cDevControlPointer &pointer);
+		void draw();
 		void update();
+		virtual void onClick();
 		bool isTouched();
 };
 #endif
