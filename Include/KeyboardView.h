@@ -5,22 +5,21 @@
 #include "SoundButton.h"
 #include "lib.h"
 #include "Tone.h"
+#include "InputEvents.h"
 
 class KeyboardView : public UI{
 private:
 	cDevDisplayGraphic &disp;
-	cDevControlPointer &pointer;
 	SoundPlayer &sp;
 	SoundButton *buttons[Gs + 1];
 public:
 	KeyboardView(
 			char* name,
 			cDevDisplayGraphic &disp,
-			cDevControlPointer &pointer,
 			SoundPlayer &sp
 	);
 	void build();
-	void update();
+	void update(InputEvents events);
 	void del();
 };
 #endif

@@ -11,11 +11,10 @@ SoundButton::SoundButton(
 			int height,
 			char* label,
 			cDevDisplayGraphic &disp,
-			cDevControlPointer &pointer,
 			Tone tone,
 			SoundPlayer &sp
 		):
-			VirtualTouchButton(x,y,width,height,label,disp,pointer),
+			VirtualTouchButton(x,y,width,height,label,disp),
 			tone(tone),
 			sp(sp)
 	{};

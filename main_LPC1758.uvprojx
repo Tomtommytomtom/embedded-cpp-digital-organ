@@ -508,6 +508,11 @@
               <FileType>8</FileType>
               <FilePath>.\Src\KeyboardView.cpp</FilePath>
             </File>
+            <File>
+              <FileName>InputEvents.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\InputEvents.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -622,6 +627,11 @@
               <FileName>KeyboardView.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Include\KeyboardView.h</FilePath>
+            </File>
+            <File>
+              <FileName>InputEvents.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\InputEvents.h</FilePath>
             </File>
           </Files>
         </Group>

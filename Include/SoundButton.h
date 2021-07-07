@@ -15,7 +15,6 @@ class SoundButton : public VirtualTouchButton{
 			int height,
 			char* label,
 			cDevDisplayGraphic &disp,
-			cDevControlPointer &pointer,
 			Tone tone,
 			SoundPlayer &sp
 		); 

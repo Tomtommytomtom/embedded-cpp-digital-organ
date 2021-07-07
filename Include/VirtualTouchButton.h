@@ -1,6 +1,7 @@
 #ifndef _Virtual_Touch_Button_H
 #define _Virtual_Touch_Button_H
 #include "lib.h"
+#include "InputEvents.h"
 
 class VirtualTouchButton{
 	public:
@@ -10,11 +11,10 @@ class VirtualTouchButton{
 		int height;
 		char* label;
 		cDevDisplayGraphic &disp;
-		cDevControlPointer &pointer;
-		VirtualTouchButton(int x, int y, int length, int width, char *label, cDevDisplayGraphic &disp, cDevControlPointer &pointer);
+		VirtualTouchButton(int x, int y, int length, int width, char *label, cDevDisplayGraphic &disp);
 		void draw();
-		void update();
+		void update(InputEvents events);
 		virtual void onClick();
-		bool isTouched();
+		bool isTouched(InputEvents events);
 };
 #endif

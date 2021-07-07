@@ -8,6 +8,7 @@
 #include "SongPlayer.h"
 #include "KeyboardView.h"
 #include "Navigation.h"
+#include "InputEvents.h"
 
 //*******************************************************************
 
@@ -71,30 +72,29 @@ int main(void)
 	
   disp.printf(0,0,0,__DATE__ " " __TIME__);
 	
-	KeyboardView *kb = new KeyboardView("Play Sounds!",disp,pointer,sp);
-	Navigation nav(disp,pointer,btn);
+	KeyboardView *kb = new KeyboardView("Play Sounds!",disp,sp);
+	Navigation nav(disp);
 	nav.registerUI(static_cast<UI*>(kb),0);
 	nav.build();
 	
 	disp.printf(1,0,0,sp.getTone()->toString());
 	int volume = 70;
+	
+	Inputs inputs(pointer,btn,enc);
+	
   while(1)
   {
+		InputEvents events = inputs.get();
+		
 		disp.printf(1,0,20,"Volume: %d",volume);
 		disp.printf(2,0,0,sp.getTone()->toString());
-		if(btn.get())
-		{
-			disp.printf(5,0,0,"hi");
-			//start song
-		}
 		
-		nav.update();
-		
+		nav.update(events);
 		
 		//sp.setTone(new Tone(A,1,16));
 			
 		//use joystick to adjust tone
-		switch( enc.get() )
+		switch( events.joystickEvent )
     {
 				case cDevControlEncoder::LEFT:
 					sp.setVolume(volume--);

@@ -1,6 +1,7 @@
 #include "Navigation.h"
 #include "VirtualTouchButton.h"
 #include "UI.h"
+#include "InputEvents.h"
 
 NavigationButton::NavigationButton(
 	int x,
@@ -9,11 +10,10 @@ NavigationButton::NavigationButton(
 	int height,
 	char* label,
 	cDevDisplayGraphic &disp,
-	cDevControlPointer &pointer,
 	Navigation *nav,
 	UI *nextUI
 ) :
-	VirtualTouchButton(x,y,width,height,label,disp,pointer),
+	VirtualTouchButton(x,y,width,height,label,disp),
 	nav(nav),
 	nextUI(nextUI)
 {
@@ -27,11 +27,9 @@ void NavigationButton::onClick(){
 	nav->currentUI->build();
 }
 
-Navigation::Navigation(cDevDisplayGraphic &disp,cDevControlPointer &pointer,cDevDigital &back_button)
+Navigation::Navigation(cDevDisplayGraphic &disp)
 : UI("Navigation"),
-	disp(disp),
-	pointer(pointer),
-	back_button(back_button)
+	disp(disp)
 {
 	currentUI = static_cast<UI*>(this);
 }
@@ -47,14 +45,14 @@ void Navigation::build(){
 	int height = 40;
 	for(int i = 0; i < 1;i++){
 		disp.printf(4,0,0,uis[i]->name);
-		NavigationButton *btn = new NavigationButton(x,y,width,height*(i+1),uis[i]->name,disp,pointer,this,uis[i]);
+		NavigationButton *btn = new NavigationButton(x,y,width,height*(i+1),uis[i]->name,disp,this,uis[i]);
 		btn->draw();
 		buttons[i] = btn;
 	}
 }
 
-void Navigation::update(){
-	if(back_button.get()){
+void Navigation::update(InputEvents events){
+	if(events.buttonPressed){
 		currentUI->del();
 		currentUI = this;
 		disp.clear();
@@ -62,13 +60,11 @@ void Navigation::update(){
 		return;
 	}
 	if(currentUI == static_cast<UI*>(this)){
-		disp.printf(3,0,0,"am navigation");
 		for(int i = 0; i < 1;i++){
-			buttons[i]->update();
+			buttons[i]->update(events);
 		}
 	} else {
-		disp.printf(3,0,0,"am something else");
-		currentUI->update();
+		currentUI->update(events);
 	}
 }
 

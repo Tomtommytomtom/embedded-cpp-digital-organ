@@ -7,12 +7,10 @@
 KeyboardView::KeyboardView(
 				char* name,
 				cDevDisplayGraphic &disp,
-				cDevControlPointer &pointer,
 				SoundPlayer &sp
 			): 
 				UI(name),
 				disp(disp),
-				pointer(pointer),
 				sp(sp){};
 					
 void KeyboardView::build(){
@@ -21,21 +19,21 @@ void KeyboardView::build(){
 		int width = 320/Gs;
 		int x = 0 + noteInt * width;
 		Tone tone(note,1,16);
-		SoundButton *btn = new SoundButton(x,240/2,width,240/2,tone.toString(),disp,pointer,tone,sp);
+		SoundButton *btn = new SoundButton(x,240/2,width,240/2,tone.toString(),disp,tone,sp);
 		buttons[noteInt] = btn;
 		btn->draw();
 	}
 }
 
-void KeyboardView::update(){
+void KeyboardView::update(InputEvents events){
 	int keyTouched;
 	for(int noteInt = A; noteInt <= Gs; noteInt++) {
-		buttons[noteInt]->update();
-		keyTouched = buttons[noteInt]->isTouched() || keyTouched;
+		buttons[noteInt]->update(events);
+		keyTouched = buttons[noteInt]->isTouched(events) || keyTouched;
 	}
-	disp.printf(4,0,0,"x:%d , y:%d, delta; %d",pointer.get().posX,pointer.get().posY,pointer.get());
+	disp.printf(4,0,0,"x:%d , y:%d, delta; %d",events.pointerEvent.posX,events.pointerEvent.posY,events.pointerEvent);
 	disp.printf(5,0,0,"%d",keyTouched);
-	if(pointer.get().flags && pointer.get().CTRL_UP){
+	if(events.pointerEvent.flags && events.pointerEvent.CTRL_UP){
 		sp.setTone(0);
 	}
 }

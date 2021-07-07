@@ -1,15 +1,15 @@
 #include "VirtualTouchButton.h"
 #include "lib.h"
 #include "Subject.h"
+#include "InputEvents.h"
 
-VirtualTouchButton::VirtualTouchButton(int x, int y, int width, int height, char* label, cDevDisplayGraphic &disp, cDevControlPointer &pointer)
+VirtualTouchButton::VirtualTouchButton(int x, int y, int width, int height, char* label, cDevDisplayGraphic &disp)
 	: x(x),
 	  y(y),
 		width(width),
 		height(height),
 		label(label),
-		disp(disp),
-		pointer(pointer)
+		disp(disp)
 		{};
 			
 void VirtualTouchButton::draw(){
@@ -18,8 +18,8 @@ void VirtualTouchButton::draw(){
 	disp.refresh();
 }
 
-bool VirtualTouchButton::isTouched(){
-	cDevControlPointer::cData event = pointer.get();
+bool VirtualTouchButton::isTouched(InputEvents events){
+	cDevControlPointer::cData event = events.pointerEvent;
 	int tX = event.posX;
 	int tY = event.posY;
 	return tX > x && 
@@ -29,8 +29,8 @@ bool VirtualTouchButton::isTouched(){
 				 event.flags && event.CTRL_UP;
 }
 
-void VirtualTouchButton::update(){
-	if(isTouched()){
+void VirtualTouchButton::update(InputEvents events){
+	if(isTouched(events)){
 		this->onClick();
 	}
 }
