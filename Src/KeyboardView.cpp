@@ -14,9 +14,9 @@ KeyboardView::KeyboardView(
 				sp(sp){};
 					
 void KeyboardView::build(){
-	for(int noteInt = A; noteInt <= Gs; noteInt++){
+	for(int noteInt = C; noteInt <= B; noteInt++){
 		Note note = static_cast<Note>(noteInt);
-		int width = 320/Gs;
+		int width = 320/B;
 		int x = 0 + noteInt * width;
 		Tone tone(note,1,16);
 		SoundButton *btn = new SoundButton(x,240/2,width,240/2,tone.toString(),disp,tone,sp);
@@ -27,7 +27,7 @@ void KeyboardView::build(){
 
 void KeyboardView::update(InputEvents events){
 	int keyTouched;
-	for(int noteInt = A; noteInt <= Gs; noteInt++) {
+	for(int noteInt = C; noteInt <= B; noteInt++) {
 		buttons[noteInt]->update(events);
 		keyTouched = buttons[noteInt]->isTouched(events) || keyTouched;
 	}
@@ -39,7 +39,7 @@ void KeyboardView::update(InputEvents events){
 }
 
 void KeyboardView::del(){
-	for(int noteInt = A; noteInt < Gs/2+1; noteInt = noteInt + 2) {
+	for(int noteInt = C; noteInt < B/2+1; noteInt = noteInt + 2) {
 		delete buttons[noteInt];
 	}
 }

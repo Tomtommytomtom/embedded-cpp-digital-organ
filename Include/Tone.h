@@ -3,7 +3,7 @@
 
 #include "lib.h"
 
-enum Note{A, As, B, C, Cs, D, Ds, E, F, Fs, G, Gs};
+enum Note{C, Cs, D, Ds, E, F, Fs, G, Gs, A, As, B};
 
 class Tone{
 public:
