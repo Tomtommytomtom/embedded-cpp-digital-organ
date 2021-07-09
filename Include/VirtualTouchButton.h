@@ -10,6 +10,8 @@ class VirtualTouchButton{
 		int width;
 		int height;
 		char* label;
+		bool touched;
+		int touchedCount;
 		cDevDisplayGraphic &disp;
 		VirtualTouchButton(int x, int y, int length, int width, char *label, cDevDisplayGraphic &disp);
 		void draw();
