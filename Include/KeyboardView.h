@@ -9,7 +9,6 @@
 
 class KeyboardView : public UI{
 private:
-	cDevDisplayGraphic &disp;
 	SoundPlayer &sp;
 	SoundButton *buttons[Gs + 1];
 public:

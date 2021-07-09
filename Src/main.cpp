@@ -7,6 +7,7 @@
 #include "Song.h"
 #include "SongPlayer.h"
 #include "KeyboardView.h"
+#include "SongPlayerView.h"
 #include "Navigation.h"
 #include "InputEvents.h"
 
@@ -62,22 +63,86 @@ int main(void)
 	song.add(new SongItem(new Tone(D, 1, 4)));
 	song.add(new SongItem(new Tone(C, 1, 16)));
 	
+	Song song2("The Beat","Tom");
+	
+	song2.add(new SongItem(new Tone(A, 1, 4)));
+	song2.add(new SongItem(new Tone(B, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(F, 1, 4)));
+	song2.add(new SongItem(new Tone(G, 1, 8)));
+	song2.add(new SongItem(new Tone(F, 1, 8)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(G, 1, 16)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 4)));
+	song2.add(new SongItem(new Tone(G, 1, 16)));
+	song2.add(new SongItem(new Tone(F, 1, 4)));
+	song2.add(new SongItem(new Tone(F, 1, 4)));
+	song2.add(new SongItem(new Tone(F, 1, 4)));
+	song2.add(new SongItem(new Tone(F, 1, 4)));
+	song2.add(new SongItem(new Tone(E, 1, 8)));
+	song2.add(new SongItem(new Tone(E, 1, 8)));
+	song2.add(new SongItem(new Tone(D, 1, 4)));
+	song2.add(new SongItem(new Tone(D, 1, 4)));
+	song2.add(new SongItem(new Tone(D, 1, 4)));
+	song2.add(new SongItem(new Tone(D, 1, 4)));
+	song2.add(new SongItem(new Tone(C, 1, 16)));
+	
+	Song song3("The Music","Tom");
+	
+	song3.add(new SongItem(new Tone(A, 1, 4)));
+	song3.add(new SongItem(new Tone(B, 1, 4)));
+	song3.add(new SongItem(new Tone(C, 1, 4)));
+	song3.add(new SongItem(new Tone(D, 1, 4)));
+	song3.add(new SongItem(new Tone(E, 1, 8)));
+	song3.add(new SongItem(new Tone(F, 1, 8)));
+	song3.add(new SongItem(new Tone(G, 1, 4)));
+	song3.add(new SongItem(new Tone(G, 1, 4)));
+	song3.add(new SongItem(new Tone(F, 1, 4)));
+	song3.add(new SongItem(new Tone(F, 1, 4)));
+	song3.add(new SongItem(new Tone(E, 1, 16)));
+	song3.add(new SongItem(new Tone(E, 1, 4)));
+	song3.add(new SongItem(new Tone(C, 1, 4)));
+	song3.add(new SongItem(new Tone(C, 1, 4)));
+	song3.add(new SongItem(new Tone(B, 1, 4)));
+	song3.add(new SongItem(new Tone(B, 1, 16)));
+	song3.add(new SongItem(new Tone(A, 1, 4)));
+	song3.add(new SongItem(new Tone(A, 1, 4)));
+	song3.add(new SongItem(new Tone(C, 1, 4)));
+	song3.add(new SongItem(new Tone(F, 1, 4)));
+	song3.add(new SongItem(new Tone(E, 1, 8)));
+	song3.add(new SongItem(new Tone(D, 1, 8)));
+	song3.add(new SongItem(new Tone(D, 1, 4)));
+	song3.add(new SongItem(new Tone(D, 1, 4)));
+	song3.add(new SongItem(new Tone(D, 1, 4)));
+	song3.add(new SongItem(new Tone(D, 1, 4)));
+	song3.add(new SongItem(new Tone(Gs, 1, 16)));
+	
 	cHwTimer_N   timerTakt (cHwTimer_N::TIM_0,   SongPlayer::calcCycleTime(120)); // 120 bpm
 	cTaskHandler playerHadler(&timerTakt);
 	
-	//SongPlayer player(playerHadler, &timerTakt, &sp);
+	SongPlayer player(playerHadler, &timerTakt, &sp);
 	//player.setSong(&song);
 	//player.start();
 	
 	
-  disp.printf(0,0,0,__DATE__ " " __TIME__);
+  //disp.printf(0,0,0,__DATE__ " " __TIME__);
 	
 	KeyboardView *kb = new KeyboardView("Play Sounds!",disp,sp);
+	SongPlayerView *spv = new SongPlayerView("Play Songs!",disp,player);
+	spv->registerSong(&song,0);
+	spv->registerSong(&song2,1);
+	spv->registerSong(&song3,2);
 	Navigation nav(disp);
 	nav.registerUI(static_cast<UI*>(kb),0);
+	nav.registerUI(static_cast<UI*>(spv),1);
 	nav.build();
 	
-	disp.printf(1,0,0,sp.getTone()->toString());
 	int volume = 70;
 	
 	Inputs inputs(pointer,btn,enc);
@@ -86,12 +151,7 @@ int main(void)
   {
 		InputEvents events = inputs.get();
 		
-		disp.printf(1,0,20,"Volume: %d",volume);
-		disp.printf(2,0,0,sp.getTone()->toString());
-		
 		nav.update(events);
-		
-		//sp.setTone(new Tone(A,1,16));
 			
 		//use joystick to adjust tone
 		switch( events.joystickEvent )
@@ -107,6 +167,7 @@ int main(void)
         default:
 					break;
     }
+		disp.refresh();
   }
 }
 

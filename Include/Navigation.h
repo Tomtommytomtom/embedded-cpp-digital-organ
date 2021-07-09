@@ -7,10 +7,8 @@
 
 class Navigation : public UI{
 private:
-	cDevDisplayGraphic &disp;
-	UI *uis[1];
+	UI *uis[2];
 	VirtualTouchButton *buttons[2];
-	 
 public:
 	UI *currentUI;
 	Navigation(

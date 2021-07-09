@@ -5,6 +5,30 @@ SongItem::SongItem(Tone *t): tone(*t){
 
 }
 
+char* Song::toString(){
+	//this is buggy for some reason, probably off by one errors
+	char* delimiter = " - ";
+	int delLen = strlen(delimiter);
+	int songLen = strlen(name);
+	int artistLen = strlen(artist);
+	int size =  songLen + delLen + artistLen;
+	char *label = (char*) malloc(sizeof(char) * size);
+	int labelCount = 0;
+	for(int i = 0; i < songLen; i++){
+		label[labelCount] = name[i]; 
+		labelCount++;
+	}
+	for(int i = 0; i < delLen; i++){
+		label[labelCount] = delimiter[i]; 
+		labelCount++;
+	}
+	for(int i = 0; i < artistLen; i++){
+		label[labelCount] = artist[i]; 
+		labelCount++;
+	}
+	return label;
+}
+
 char SongItem::getHasNext(){
 	return hasNext;
 }

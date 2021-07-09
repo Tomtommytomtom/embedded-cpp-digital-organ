@@ -1,7 +1,7 @@
 #include "Tone.h"
 
 Tone::Tone(Note n, char octave, char length):note(n),octave(octave),length(length){}
-
+	
 char *Tone::toString(){
 	char* ausgabe = new char[3];
 	switch(note){

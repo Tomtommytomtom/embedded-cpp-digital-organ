@@ -513,6 +513,11 @@
               <FileType>8</FileType>
               <FilePath>.\Src\InputEvents.cpp</FilePath>
             </File>
+            <File>
+              <FileName>SongPlayerView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Src\SongPlayerView.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -632,6 +637,11 @@
               <FileName>InputEvents.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Include\InputEvents.h</FilePath>
+            </File>
+            <File>
+              <FileName>SongPlayerView.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\SongPlayerView.h</FilePath>
             </File>
           </Files>
         </Group>

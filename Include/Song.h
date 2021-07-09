@@ -37,6 +37,8 @@ public:
 	SongItem *getFirst();
 	SongItem *getAt(int index);
 
+	char *toString();
+
 	void add(SongItem *item);
 	void insertAt(SongItem *item, int index);
 	void insertFirst(SongItem *item);

@@ -20,6 +20,6 @@ SoundButton::SoundButton(
 	{};
 		
 void SoundButton::onClick(){
-	VirtualTouchButton::onClick();
+	disp.printf(6,0,20,"Playing Sound %s",label);
 	this->sp.setTone(&tone);
 };

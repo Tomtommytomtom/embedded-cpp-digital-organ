@@ -9,11 +9,11 @@ KeyboardView::KeyboardView(
 				cDevDisplayGraphic &disp,
 				SoundPlayer &sp
 			): 
-				UI(name),
-				disp(disp),
+				UI(name,disp),
 				sp(sp){};
 					
 void KeyboardView::build(){
+	UI::build();
 	for(int noteInt = C; noteInt <= B; noteInt++){
 		Note note = static_cast<Note>(noteInt);
 		int width = 320/B;
@@ -26,20 +26,15 @@ void KeyboardView::build(){
 }
 
 void KeyboardView::update(InputEvents events){
-	int keyTouched;
+	bool keyTouched = false;
 	for(int noteInt = C; noteInt <= B; noteInt++) {
 		buttons[noteInt]->update(events);
-		keyTouched = buttons[noteInt]->isTouched(events) || keyTouched;
+		keyTouched = buttons[noteInt]->touched || keyTouched;
 	}
-	disp.printf(4,0,0,"x:%d , y:%d, delta; %d",events.pointerEvent.posX,events.pointerEvent.posY,events.pointerEvent);
-	disp.printf(5,0,0,"%d",keyTouched);
-	if(events.pointerEvent.flags && events.pointerEvent.CTRL_UP){
+	if(!keyTouched){
 		sp.setTone(0);
 	}
 }
 
 void KeyboardView::del(){
-	for(int noteInt = C; noteInt < B/2+1; noteInt = noteInt + 2) {
-		delete buttons[noteInt];
-	}
 }

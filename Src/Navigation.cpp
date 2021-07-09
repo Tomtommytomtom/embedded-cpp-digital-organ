@@ -20,7 +20,6 @@ NavigationButton::NavigationButton(
 };
 				
 void NavigationButton::onClick(){
-	disp.printf(3,0,0,"CLICKED");
 	nav->currentUI->del();
 	nav->currentUI = nextUI;
 	disp.clear();
@@ -28,8 +27,7 @@ void NavigationButton::onClick(){
 }
 
 Navigation::Navigation(cDevDisplayGraphic &disp)
-: UI("Navigation"),
-	disp(disp)
+: UI("Navigation",disp)
 {
 	currentUI = static_cast<UI*>(this);
 }
@@ -39,13 +37,13 @@ void Navigation::registerUI(UI *ui, int i){
 }
 
 void Navigation::build(){
+	UI::build();
 	int x = 20;
-	int y = 100;
+	int y = 80;
 	int width = 280;
 	int height = 40;
-	for(int i = 0; i < 1;i++){
-		disp.printf(4,0,0,uis[i]->name);
-		NavigationButton *btn = new NavigationButton(x,y,width,height*(i+1),uis[i]->name,disp,this,uis[i]);
+	for(int i = 0; i < 2;i++){
+		NavigationButton *btn = new NavigationButton(x,y+height*i+10,width,height,uis[i]->name,disp,this,uis[i]);
 		btn->draw();
 		buttons[i] = btn;
 	}
@@ -60,7 +58,7 @@ void Navigation::update(InputEvents events){
 		return;
 	}
 	if(currentUI == static_cast<UI*>(this)){
-		for(int i = 0; i < 1;i++){
+		for(int i = 0; i < 2;i++){
 			buttons[i]->update(events);
 		}
 	} else {
